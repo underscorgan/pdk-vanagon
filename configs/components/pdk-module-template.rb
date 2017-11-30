@@ -3,8 +3,7 @@ component "pdk-module-template" do |pkg, settings, platform|
   # to promote new template versions.
   pkg.load_from_json('configs/components/pdk-module-template.json')
 
-  pkg.build_requires "git"
-  pkg.build_requires "ruby-#{settings[:ruby_version]}"
+  pkg.build_requires "pdk-runtime"
   pkg.build_requires "rubygem-bundler"
   pkg.build_requires 'rubygem-mini_portile2'
   pkg.build_requires 'rubygem-nokogiri'
