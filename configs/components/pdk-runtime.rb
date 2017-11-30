@@ -4,8 +4,12 @@ component 'pdk-runtime' do |pkg, settings, platform|
   pkg.url "http://builds.puppetlabs.lan/puppet-runtime/#{pkg.get_version}/artifacts/#{pkg.get_name}-#{pkg.get_version}.#{platform.name}.tar.gz"
   pkg.install_only true
 
+  install_command = ["gunzip -c #{pkg.get_name}-#{pkg.get_version}.#{platform.name}.tar.gz | tar -C / -xf -"]
+  if platform.is_windows?
+    install_command = ["gunzip -c #{pkg.get_name}-#{pkg.get_version}.#{platform.name}.tar.gz | tar -C C:/ -xf -"]
+  end
   pkg.install do
-    ["gunzip -c #{pkg.get_name}-#{pkg.get_version}.#{platform.name}.tar.gz | tar -C / -xf -"]
+    install_command
   end
 end
 
