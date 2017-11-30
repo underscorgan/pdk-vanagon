@@ -6,7 +6,7 @@ component 'pdk-runtime' do |pkg, settings, platform|
 
   install_command = ["gunzip -c #{pkg.get_name}-#{pkg.get_version}.#{platform.name}.tar.gz | tar -C / -xf -"]
   if platform.is_windows?
-    install_command = ["gunzip -c #{pkg.get_name}-#{pkg.get_version}.#{platform.name}.tar.gz | tar -C C:/ -xf -"]
+    install_command = ["gunzip -c #{pkg.get_name}-#{pkg.get_version}.#{platform.name}.tar.gz | tar -C /cygdrive/c/ -xf -", "chmod 755 /cygdrive/c/ProgramFiles64Folder/PuppetLabs/DevelopmentKit/private/ruby/2.1.9/bin/*"]
   end
   pkg.install do
     install_command
