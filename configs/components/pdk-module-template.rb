@@ -4,6 +4,10 @@ component "pdk-module-template" do |pkg, settings, platform|
   pkg.load_from_json('configs/components/pdk-module-template.json')
 
   pkg.build_requires "pdk-runtime"
+  pkg.build_requires "rubygem-bundler"
+  pkg.build_requires 'rubygem-mini_portile2'
+  pkg.build_requires 'rubygem-nokogiri'
+  pkg.build_requires "rubygem-pdk"
 
   if platform.is_windows?
     pkg.environment "PATH", settings[:gem_path_env]
@@ -18,7 +22,7 @@ component "pdk-module-template" do |pkg, settings, platform|
     pdk_bin = File.join(settings[:ruby_bindir], 'pdk')
     bundle_bin = File.join(settings[:ruby_bindir], 'bundle')
     gem_bin = File.join(settings[:ruby_bindir], 'gem')
-    ruby_cachedir = File.join('/opt/puppetlabs/pdk/private/ruby/2.1.9/lib/ruby/gems/2.1.0/cache')
+    ruby_cachedir = File.join(settings[:cachedir], 'ruby', '2.1.0')
 
     if platform.is_windows?
       git_bin = git_bin.gsub(/\/bin\//, '/cmd/').concat('.exe')
