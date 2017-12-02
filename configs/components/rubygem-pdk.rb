@@ -8,9 +8,11 @@ component "rubygem-pdk" do |pkg, settings, platform|
     pkg.environment "PATH", settings[:gem_path_env]
   end
 
+  gem_command = settings[:host_gem]
+  gem_command = "cmd.exe /c " + gem_command if platform.is_windows?
   pkg.install do
     [
-      "#{settings[:host_gem]} build pdk.gemspec",
+      "#{gem_command} build pdk.gemspec",
       "#{settings[:gem_install]} pdk-#{pkg.get_version.tr('-', '.')}*.gem",
     ]
   end
