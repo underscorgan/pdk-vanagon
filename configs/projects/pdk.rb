@@ -79,9 +79,8 @@ project "pdk" do |proj|
   proj.setting(:ruby_vendordir, File.join(proj.libdir, "ruby", "vendor_ruby"))
 
   gem_install = "#{proj.host_gem} install --no-rdoc --no-ri --local "
-  if platform.is_windows?
-    gem_install = "cmd.exe /c " + gem_install + "--bindir #{proj.ruby_bindir} "
-  end
+  # Add --bindir option for Windows...
+  gem_install << "--bindir #{proj.ruby_bindir} " if platform.is_windows?
   proj.setting(:gem_install, gem_install)
 
   if platform.is_windows?
