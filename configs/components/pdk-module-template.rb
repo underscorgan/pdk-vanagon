@@ -23,14 +23,12 @@ component "pdk-module-template" do |pkg, settings, platform|
     bundle_bin = File.join(settings[:ruby_bindir], 'bundle')
     gem_bin = File.join(settings[:ruby_bindir], 'gem')
     ruby_cachedir = File.join(settings[:cachedir], 'ruby', '2.1.0')
-    gem_command = "GEM_HOME=#{ruby_cachedir} #{gem_bin}"
 
     if platform.is_windows?
       git_bin = git_bin.gsub(/\/bin\//, '/cmd/').concat('.exe')
       pdk_bin << '.bat'
-      bundle_bin = "cmd.exe /c #{bundle_bin}.bat"
+      bundle_bin << '.bat'
       gem_bin << '.bat'
-      gem_command = "cmd.exe /v /c 'set \"GEM_HOME=#{ruby_cachedir}\" & #{gem_bin}'"
     end
 
     build_commands = [
@@ -60,7 +58,7 @@ component "pdk-module-template" do |pkg, settings, platform|
       "cp vanagon_module/Gemfile.lock #{settings[:cachedir]}/Gemfile.lock",
 
       # Install bundler itself into the gem cache
-      "#{gem_command} install ../bundler-#{settings[:bundler_version]}.gem --local --no-document",
+      "GEM_HOME=#{ruby_cachedir} #{gem_bin} install ../bundler-#{settings[:bundler_version]}.gem --local --no-document",
     ]
 
     if platform.is_windows?
@@ -69,10 +67,10 @@ component "pdk-module-template" do |pkg, settings, platform|
       # at runtime, we just purge it before attempting to package.
       build_commands << "/usr/bin/find #{File.join(settings[:cachedir], 'ruby')} -regextype posix-extended -regex '.*/puppet-[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+[^/]*/spec/.*' -delete"
 
-      build_commands.unshift "#{gem_command} install ../nokogiri-#{settings[:nokogiri_version]}-x64-mingw32.gem --local --no-document"
+      build_commands.unshift "GEM_HOME=#{ruby_cachedir} #{gem_bin} install ../nokogiri-#{settings[:nokogiri_version]}-x64-mingw32.gem --local --no-document"
     end
 
-    build_commands.unshift "#{gem_command} install ../mini_portile2-#{settings[:mini_portile2_version]}.gem --local --no-document"
+    build_commands.unshift "GEM_HOME=#{ruby_cachedir} #{gem_bin} install ../mini_portile2-#{settings[:mini_portile2_version]}.gem --local --no-document"
 
     build_commands
   end
