@@ -1,7 +1,8 @@
 component 'pdk-runtime' do |pkg, settings, platform|
-  pkg.version '201712050'
-  pkg.sha1sum "http://builds.puppetlabs.lan/puppet-runtime/#{pkg.get_version}/artifacts/#{pkg.get_name}-#{pkg.get_version}.#{platform.name}.tar.gz.sha1"
-  pkg.url "http://builds.puppetlabs.lan/puppet-runtime/#{pkg.get_version}/artifacts/#{pkg.get_name}-#{pkg.get_version}.#{platform.name}.tar.gz"
+  pkg.version '201802020.4.g1f99836'
+  gitsha = '1f998360d52888c0a72d4624761dee15fa6b55e1'
+  pkg.sha1sum "http://builds.puppetlabs.lan/puppet-runtime/#{gitsha}/artifacts/#{pkg.get_name}-#{pkg.get_version}.#{platform.name}.tar.gz.sha1"
+  pkg.url "http://builds.puppetlabs.lan/puppet-runtime/#{gitsha}/artifacts/#{pkg.get_name}-#{pkg.get_version}.#{platform.name}.tar.gz"
   pkg.install_only true
 
   install_command = ["gunzip -c #{pkg.get_name}-#{pkg.get_version}.#{platform.name}.tar.gz | tar -C / -xf -"]
